@@ -1,0 +1,877 @@
+<!-- 本ファイルはBB2021_editorによって自動生成されたものです。 -->
+<!-- ブロック崩しを動かすのに必要な記述が行われています。 -->
+<!-- 本ファイルは編集しないでください。 -->
+<!-- 使用する際は他のHTMLから<iframe>を使用して埋め込むことを推奨します。 -->
+<!-- BB2021_ver=2.5.1.0 -->
+<!--GenerateDateTime=2025/07/21 23:12:46-->
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="utf-8">
+	<script defer src="./bb2021main.js"></script>
+	
+	<style type="text/css">
+		/* JSからのアクセスのためにこのCSSはファイルで最初のCSSとする。 */
+/* またBB2021ではほかのCSSを使わないようにする。 */
+
+
+/* パフォーマンスのために可能な限りBEMに従って命名する。 */
+
+/* 拡張 */
+/* ID、クラスいずれも同様の規則で命名する。 */
+/* いずれのID、クラスも先頭はbb(2021)もしくはbb-で始める。 */
+
+/* BEM */
+/* 単語はハイフンでつなぐ */
+
+/* Block */
+/* class=bb-search-form */
+
+/* Element */
+/* アンダースコア2つに続けて記述する。  */
+/* class=bb-search-form__input */
+
+/* Modifier */
+/* ハイフン2つに続けて記述する。 */
+/* class=bb-search-form__input--disabled */
+
+
+
+body {
+    margin: 0px;
+    padding: 0px;
+    max-height: 100vh;
+    max-width: 100vw;
+    /* スクロールバーを表示させない． */
+    /* 特にbumpしたとき */
+    overflow: hidden;
+}
+
+#bb2021 {
+    display: block;
+    max-height: 99vh;
+    max-width: 99vw;
+    /* 中央寄せ */
+    margin-left: auto;
+    margin-right: auto;
+    /* 選択不可能にする */
+    user-select: none;
+    border: 2px solid black;
+    border-radius: 10px;
+    font-family: "Arial";
+    --backgroundColor: rgb(255, 255, 255);
+    background-color: var(--backgroundColor);
+}
+
+/* imageは常に上合わせの横幅100% */
+/* これがないと画像サイズが小さいとき(1000px以下？)表示が狂う */
+image {
+    width: 100%;
+}
+
+
+/* #bb2021 bump effect */
+@keyframes bump-left-animation {
+    50% {
+        transform: translateX(-0.5%);
+    }
+}
+
+@keyframes bump-right-animation {
+    50% {
+        transform: translateX(0.5%);
+    }
+}
+
+@keyframes bump-up-animation {
+    50% {
+        transform: translateY(-0.5%);
+    }
+}
+
+@keyframes bump-down-animation {
+    50% {
+        transform: translateY(0.5%);
+    }
+}
+
+.bb2021--bump-left {
+    animation: bump-left-animation 0.1s linear both;
+}
+
+.bb2021--bump-right {
+    animation: bump-right-animation 0.1s linear both;
+}
+
+.bb2021--bump-up {
+    animation: bump-up-animation 0.1s linear both;
+}
+
+.bb2021--bump-down {
+    animation: bump-down-animation 0.1s linear both;
+}
+
+@keyframes loading-text-animation {
+    50% {
+        transform: translate(0, 10%);
+    }
+}
+
+#bb-loading-text {
+    animation: loading-text-animation 3s linear 0s both infinite;
+}
+
+@keyframes pad-hit-animation {
+    50% {
+        opacity: 0.1;
+    }
+}
+
+.bb-pad--hit {
+    animation: pad-hit-animation 0.1s linear 0s both;
+}
+
+.bb-combo-text {
+    font-size: 2.5em;
+    animation-name: combo-text-animation;
+    animation-timing-function: ease;
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+    animation-delay: 0.1s;
+}
+
+@keyframes combo-text-animation {
+    0% {
+        fill-opacity: 1;
+    }
+
+    100% {
+        transform: translate(0, 2.5%);
+        fill-opacity: 0;
+    }
+}
+
+.bb-fade-event-text {
+    animation-name: fadein-text-animation;
+    animation-timing-function: ease;
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadein-text-animation {
+    0% {
+        fill-opacity: 0;
+        transform: translate(0, 2.5%);
+    }
+
+    100% {
+        fill-opacity: 1;
+    }
+}
+
+.bb-fade-event-text--out {
+    animation-name: fadeout-text-animation;
+    animation-timing-function: ease;
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeout-text-animation {
+    0% {
+        fill-opacity: 1;
+    }
+
+    100% {
+        fill-opacity: 0;
+    }
+}
+
+.bb-event-timer-text--fadeout {
+    /* ちょうどいいのでアニメーション使いまわし */
+    animation-name: fadeout-text-animation;
+    animation-timing-function: ease;
+    animation-duration: 1.2s;
+    animation-fill-mode: forwards;
+}
+
+/* ボールがブロックに衝突したときのエフェクト */
+.bb-hit-effect {
+    stroke: black;
+    fill: white;
+    stroke-width: 0.2%;
+    animation-name: hit-effect-animation;
+    animation-timing-function: ease-out;
+    animation-duration: 0.4s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes hit-effect-animation {
+    0% {
+        r: 0%;
+        fill-opacity: 0.8;
+        stroke-opacity: 1;
+    }
+
+    70% {
+        fill-opacity: 0;
+    }
+
+    100% {
+        fill-opacity: 0;
+        stroke-opacity: 0;
+    }
+}
+
+/* //////////////// */
+/* item explanation */
+/* //////////////// */
+
+.bb-item-explanation-dialog {
+    padding: 1em;
+    border-radius: 0.5em;
+    border-color: gray;
+    opacity: 0.9;
+}
+
+.bb-item-explanation-dialog::backdrop {
+    background-color: gray;
+    opacity: 0.5;
+}
+
+.bb-item-explanation--button {
+    /* 右寄せ */
+    /* buttonはinline-block */
+    display: block;
+    margin-left: auto;
+}
+
+.bb-item-explanation--icon {
+    width: 4em;
+}
+
+
+/* ////// */
+/* reward */
+/* ////// */
+.bb-body--reward {
+    overflow: auto;
+    text-align: center;
+}
+
+.bb-reward__image {
+    width: 100%;
+    max-height: 85vh;
+    object-fit: contain;
+}
+
+/* block pop effect */
+.bb-block-pop-effect__elem {
+    animation-name: block-pop-animation;
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    fill: none;
+    stroke-width: 3;
+}
+
+@keyframes block-pop-animation {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        stroke: white;
+    }
+
+    50% {
+        stroke: darkviolet;
+        opacity: 0.6;
+    }
+
+    80% {
+        stroke: white;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.bb-block-shine-effect__elem {
+    animation-name: block-shine-animation;
+    animation-duration: 0.4s;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes block-shine-animation {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        fill: gray;
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* 透明度グラデーションでブロックを消すための処理 */
+/* 各要素はclip-pathで1bitの表示・非表示になっている。透明度は使えない。 */
+.bb-block-overlay--hide--rich {
+    animation-name: hide-block-animation;
+    animation-duration: 1.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+.bb-foreground-mask--hide--rich {
+    animation-name: hide-block-animation;
+    animation-duration: 1.5s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+@keyframes hide-block-animation {
+    100% {
+        opacity: 0;
+    }
+}
+
+/* for color design */
+
+/* ブロック */
+/* 前景画像の上にくるブロック表示用オーバーレイ */
+#bb-block-overlay__fill {
+    /* RGBAはAだけ0.0-1.0なので注意 */
+    --blockFillColor: rgba(255, 255, 255, 0.24705882352941178);
+    fill: var(--blockFillColor);
+}
+
+/* fillの上にstrokeが乗るのでエディタで打った値から色が変わってしまうかも */
+.bb-block-overlay__stroke {
+    --blockStrokeColor: rgb(128, 128, 128);
+    stroke: var(--blockStrokeColor);
+}
+
+/* 各ブロック要素のマスクを消すためのクラス */
+.bb-block-overlay-mask__elem--hide {
+    visibility: hidden;
+}
+
+.bb-foreground-mask__elem--hide {
+    visibility: hidden;
+}
+
+#bb-bezier-clip__bezier-path {
+    clip-rule: nonzero;
+}
+
+#bb-foreground-mask--rect,
+#bb-bezier-clip__cluster-path {
+    clip-rule: evenodd;
+    /* ドーナツ対応 */
+}
+
+/* ボール */
+/* selectorを変えるときはJSも変えるように注意 */
+.bb-ball {
+    --ballColor: rgb(200, 200, 200);
+    --ballStrokeColor: rgb(0, 0, 0);
+    fill: var(--ballColor);
+    stroke: var(--ballStrokeColor);
+}
+
+.bb-ball--penetration {
+    --ballPenetrationColor: rgb(255, 0, 0);
+    fill: var(--ballPenetrationColor);
+}
+
+.bb-tail-effect {
+    --strokeColor: rgb(200, 200, 200);
+    stroke: var(--strokeColor);
+    stroke-opacity: 0.2;
+    /* 面倒なのでとりあえず固定値 */
+    stroke-width: 1%;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bb-tail-effect--penetration {
+    --strokeColor: rgb(255, 0, 0);
+    stroke: var(--strokeColor);
+}
+
+.bb-ball-container--blink {
+    opacity: 0;
+}
+
+.bb-ball-container--hide-event {
+    opacity: 0;
+}
+
+/* パドル */
+
+#bb-pad__base {
+    --paddleBaseColor: rgb(10, 255, 10);
+    fill: var(--paddleBaseColor);
+    /* stroke-width: 5; */
+}
+
+#bb-pad__core {
+    --paddleCoreColor: rgb(255, 20, 20);
+    fill: var(--paddleCoreColor);
+}
+
+#bb-pad__symbol {
+    --paddleStrokeColor: rgb(0, 0, 0);
+    stroke: var(--paddleStrokeColor);
+}
+
+/* 文字色 */
+/* アイテムアイコンはデフォルトの黒のまま */
+text:not(defs text) {
+    --textColor: rgb(0, 0, 0);
+    fill: var(--textColor);
+}
+
+
+#bb-item-gauge-group {
+    opacity: 0.4;
+}
+
+#bb-item-gauge-group.bb-item-gauge--activated {
+    opacity: 1;
+}
+
+#bb-item-gauge {
+    --itemGaugeFillColor: rgb(255, 0, 0);
+    fill: var(--itemGaugeFillColor);
+}
+
+#bb-item-gauge-border {
+    fill: none;
+    stroke: rgb(0, 0, 0);
+}
+
+
+/* dialog */
+#bb-open-config-button {
+    --configButtonX: 10;
+    x: var(--configButtonX);
+}
+
+#bb-config-menu {
+    width: 80%;
+    height: 80%;
+}
+
+#bb-config-menu__grid {
+    margin: 2.5%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+/* TODO パフォーマンス上ワイルドカード不使用に変更すべき */
+#bb-config-menu__grid * {
+    margin: 0.8em auto;
+}
+
+#bb-config-menu__close-button {
+    width: 80%;
+    /* 中央寄せ */
+    display: block;
+    margin: auto;
+}
+	</style>
+	<title>
+		BB2021
+	</title>
+</head>
+
+<body>
+	<svg id="bb2021" viewBox="0,0,1000,1600" version="1.1" xmlns="http://www.w3.org/2000/svg"
+		 xmlns:xlink="http://www.w3.org/1999/xlink">
+		<image id="bb-wallpaper" />
+		<g id="bb-background-group">
+			<image id="bb-background" />
+		</g>
+		<g id="bb-masked-foreground">
+			<!-- iOS Safariにて、useによるimage使いまわしができなかった。しかたなくimage直接定義をしている。 -->
+			<!-- 画像切り替え時にfade用画像を挿入するためにbb-foreground-classをつけている -->
+			<!-- ビリビリマスク用画像 -->
+			<g id="bb-foreground--bezier-edge" clip-path="url(#bb-foreground-mask--bezier-edge)"
+			   class="bb-foreground-group">
+				<image class="bb-foreground" />
+			</g>
+			<!-- ビリビリマスクを使用する場合の、ビリビリ以外の部分（ブロックの塊のコア部分）用画像 -->
+			<g id="bb-foreground--bezier-core" clip-path="url(#bb-foreground-mask--bezier-core)"
+			   class="bb-foreground-group">
+				<image class="bb-foreground" />
+			</g>
+			<!-- 矩形マスク用画像 -->
+			<g id="bb-foreground--rect" clip-path="url(#bb-foreground-mask--rect)" class="bb-foreground-group">
+				<image class="bb-foreground" />
+			</g>
+		</g>
+		<!-- defs for clip -->
+		<defs>
+			<clipPath id="bb-foreground-mask--bezier-edge" shape-rendering="optimizeSpeed">
+				<!-- path will be injected by JavaScript -->
+			</clipPath>
+			<clipPath id="bb-foreground-mask--bezier-core" shape-rendering="optimizeSpeed">
+				<!-- path will be injected by JavaScript -->
+			</clipPath>
+			<clipPath id="bb-foreground-mask--rect" shape-rendering="optimizeSpeed">
+				<!-- rects will be injected by JavaScript -->
+			</clipPath>
+
+			<!-- 描写対象が細いので shape-rendering="optimizeSpeed"をつけると見えなくなる。 -->
+			<!-- auto(デフォルト)はgeometric precisionの優先度高めになっている。 -->
+			<!-- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/shape-rendering -->
+			<pattern id="bb-block-overlay-pattern__horizontal" width="100%" height="1%">
+				<line x1="0%" x2="100%" class="bb-block-overlay__stroke" />
+			</pattern>
+			<pattern id="bb-block-overlay-pattern__vertical" width="1%" height="100%">
+				<line y1="0%" y2="100%" class="bb-block-overlay__stroke" />
+			</pattern>
+		</defs>
+		<!-- 少々ものぐさだが前景画像用Clip-PathのRectマスクを流用する。 -->
+		<!-- 各ブロックのボーダー部分がマスクで削られる可能性があるのだけ要注意。 -->
+		<svg id="bb-block-overlay-container" viewBox="0,0,1000,1600" version="1.1" xmlns="http://www.w3.org/2000/svg"
+			 xmlns:xlink="http://www.w3.org/1999/xlink" clip-path="url(#bb-foreground-mask--rect)">
+			<rect width="100%" height="100%" fill="url(#bb-block-overlay-pattern__horizontal)"></rect>
+			<rect width="100%" height="100%" fill="url(#bb-block-overlay-pattern__vertical)"></rect>
+			<rect width="100%" height="100%" id="bb-block-overlay__fill"></rect>
+		</svg>
+		<g id="bb-block-effect-container"></g>
+		<svg viewBox="0,0,1000,1600" version="1.1" xmlns="http://www.w3.org/2000/svg"
+			 xmlns:xlink="http://www.w3.org/1999/xlink">
+			<defs>
+				<!-- overflow=visibleがないとStrokeが途中で切れて変な表示になってしまう。 -->
+				<symbol id="bb-pad__symbol" overflow="visible">
+					<rect id="bb-pad__base" width="100%" height="100%" rx="3%" ry="50%" />
+					<rect id="bb-pad__core" x="46%" width="8%" height="100%" />
+				</symbol>
+				<symbol id="bb-1up-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="#ffd700" />
+					<text x="48%" y="68%" text-anchor="middle" font-family="Arial" font-size="55">1up</text>
+				</symbol>
+				<symbol id="bb-piercing-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" fill="#00ffaa" />
+					<rect x="17" y="30" height="20" width="100" fill="white" />
+					<g fill="#dd0000" transform="translate(-10,-10)">
+						<ellipse cx="50" cy="50" rx="22" ry="9" />
+						<rect x="50" y="41" width="25" height="18" />
+						<line x1="80" y1="45" x2="92" y2="45" stroke="gray" />
+						<line x1="80" y1="50" x2="90" y2="50" stroke="gray" />
+						<line x1="80" y1="55" x2="92" y2="55" stroke="gray" />
+					</g>
+					<text x="50%" y="78%" text-anchor="middle" font-family="Arial" font-size="26">
+						piercing
+					</text>
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="none" />
+				</symbol>
+				<symbol id="bb-many-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="lightgreen" />
+					<circle cx="20" cy="20" r="25" fill="white" stroke="black" stroke-width="2" />
+					<circle cx="80" cy="20" r="25" fill="white" stroke="black" stroke-width="2" />
+					<circle cx="50" cy="45" r="25" fill="white" stroke="black" stroke-width="2" />
+					<text x="50%" y="89%" text-anchor="middle" font-family="Arial" font-size="35">
+						Many
+					</text>
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="none" />
+				</symbol>
+				<symbol id="bb-wide-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="aliceblue" />
+					<polygon fill="#ff7700" points="8,32 40,52 40,37 60,37 60,52 92,32 60,12 60,27 40,27 40,12" />
+					<text x="50%" y="87%" text-anchor="middle" font-family="Arial" font-size="35">
+						Wide
+					</text>
+				</symbol>
+				<symbol id="bb-short-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="aliceblue" />
+					<polygon fill="#0000cc" points="45,35 27,10 27,25 9,25 9,45 27,45 27,60" />
+					<polygon fill="#0000cc" points="55,35 73,10 73,25 91,25 91,45 73,45 73,60" />
+					<text x="50%" y="87%" text-anchor="middle" font-family="Arial" font-size="33">
+						short
+					</text>
+				</symbol>
+				<symbol id="bb-blink-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="#ff5599" />
+					<path d="M10 50 C28 78, 72 78, 90 50 C72 22, 28 22, 10 50 Z" stroke="black" stroke-width="2"
+						  fill="white" transform="translate(0,-12)" />
+					<circle cx="50" cy="38" r="18" fill="#eeeeff" stroke="black" stroke-width="2" />
+					<circle cx="50" cy="38" r="6" />
+					<line x1="10" y1="13" x2="90" y2="63" stroke="black" stroke-width="4" />
+					<text x="50%" y="91%" text-anchor="middle" font-family="Arial" font-size="35">Blink</text>
+				</symbol>
+				<symbol id="bb-bigball-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="#33ccff" />
+					<circle cx="50" cy="38" r="30" fill="white" stroke="black" stroke-width="2" />
+					<circle cx="37" cy="51" r="12" fill="white" stroke="black" stroke-width="1.5"
+							stroke-dasharray="3 2" />
+					<polygon fill="#ff7700" points="0,0 30,5 27,13 50,0 27,-13 30,-5"
+							 transform="rotate(-45) translate(0,60) scale(0.75)" />
+					<text x="50%" y="91%" text-anchor="middle" font-family="Arial" font-size="27">Big ball</text>
+				</symbol>
+				<symbol id="bb-ctrl-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="yellow" />
+
+					<g transform="translate(50,35) scale(1.35)">
+						<rect x="-30" y="-14" width="60" height="28" rx="14" ry="28" fill="lightgray" stroke="black"
+							  stroke-width="2" />
+						<line x1="-13" x2="-13" y1="-7" y2="7" stroke-width="3" stroke="black" />
+						<line x1="-20" x2="-6" y1="0" y2="0" stroke-width="3" stroke="black" />
+						<circle cx="10" cy="-4" r="3" />
+						<circle cx="17" cy="+4" r="3" />
+					</g>
+
+					<text x="50%" y="91%" text-anchor="middle" font-family="Arial" font-size="35">Ctrl</text>
+				</symbol>
+				<symbol id="bb-flash-icon" viewBox="0,0,100,100">
+					<rect width="100%" height="100%" stroke="black" stroke-width="8%" fill="rgb(10,130,200)" />
+					<text x="50%" y="91%" text-anchor="middle" font-family="Arial" font-size="35"
+						  fill="white">Flash</text>
+					<polygon fill="yellow" stroke-width="1" stroke="black" points="-50,-20 6,-23.5 -2,-3
+					30,-5 27,-13 50,0 27,13 30,5 -10,2.5 -2,-17" transform="rotate(-48) translate(-2,75) scale(1.05,0.9)" />
+				</symbol>
+			</defs>
+			<!-- Blinkアイテムはこれらのコンテナを直接触っているので注意 -->
+			<g id="bb-tail-effect-container"></g>
+			<g id="bb-ball-container"></g>
+			<use id="bb-pad" href="#bb-pad__symbol" x="0%" y="90%" width="60%" height="3%" />
+			<g id="bb-dropitem-container"></g>
+			<g id="bb-combo-text-container"></g>
+			<g id="bb-hit-effect-container"></g>
+			<g id="bb-event-text-container"></g>
+			<!-- text -->
+			<g id="bb-start-text" visibility="hidden">
+				<defs>
+					<radialGradient id="bb-start-bg-gradient">
+						<stop offset="0%" stop-color="rgb(30,30,140)" stop-opacity="0.5" />
+						<stop offset="1000%" stop-color="rgb(30,30,140)" stop-opacity="0" />
+					</radialGradient>
+				</defs>
+				<rect width="100%" height="40%" x="0%" y="52%" rx="50" ry="50" fill="url(#bb-start-bg-gradient)" />
+				<text x="50%" y="70%" text-anchor="middle" font-size="200" font-family="Arial" font-style="italic"
+					  style="fill: rgb(30,30,140);stroke:rgb(200,200,250);stroke-width:3;">
+					BB2021
+				</text>
+				<text x="50%" y="80%" text-anchor="middle" font-size="100" font-family="Arial">
+					Click
+					to start
+				</text>
+				<text id="bb-version-text" x="98%" y="88%" text-anchor="end" font-size="50" font-family="Arial">
+					Ver
+					0.0.0.0
+				</text>
+			</g>
+			<!-- Stage, Game両方 -->
+			<g>
+				<text id="bb-clear-text" x="50%" y="85%" text-anchor="middle" font-size="1000%"
+					  font-family="Arial"></text>
+				<text visibility="hidden" id="bb-clearnavi" x="50%" y="89%" text-anchor="middle" font-size="300%"
+					  font-family="Arial">
+					Please click to go to the next page.
+				</text>
+			</g>
+			<g id="bb-gameover-text" visibility="hidden">
+				<text x="50%" y="50%" text-anchor="middle" font-size="180" font-family="Arial">
+					Game
+					over
+				</text>
+				<text x="50%" y="58%" text-anchor="middle" font-size="80" font-family="Arial">
+					Please click to try again
+				</text>
+			</g>
+			<text id="bb-failed-text" visibility="hidden" x="50%" y="85%" text-anchor="middle" font-family="Arial"
+				  font-size="1000%">Failed</text>
+			<!-- end text -->
+			<g id="bb-item-gauge-group">
+				<!-- ゲージの中身自体は直角Rect、外枠をClipPathで角丸のRectにすることでアイテムゲージの減少を水面ぽくする。 -->
+				<defs>
+					<clipPath id="bb-item-gauge-clip">
+						<rect id="bb-item-gauge-clip__rect" x="25%" y="94.5%" width="65%" height="30" rx="15" />
+					</clipPath>
+				</defs>
+				<text id="bb-item-name" x="23%" y="95.5%" text-anchor="end" font-size="45">no item</text>
+				<rect id="bb-item-gauge" x="25%" width="65%" height="100%" clip-path="url(#bb-item-gauge-clip)" />
+				<rect id="bb-item-gauge-border" x="25%" y="94.5%" width="65%" height="30" rx="15" />
+				<g>
+					<defs>
+						<rect height="10" width="10"></rect>
+						<polygon id="bb-item-gauge__polygon" points="0,0 12,0 6,-18"></polygon>
+					</defs>
+					<!-- jsからより正確なY座標に直す -->
+					<use class="bb-item-gauge__scale" href="#bb-item-gauge__polygon" x="406.5" y="1542"></use>
+					<use class="bb-item-gauge__scale" href="#bb-item-gauge__polygon" x="569" y="1542"></use>
+					<use class="bb-item-gauge__scale" href="#bb-item-gauge__polygon" x="731.5" y="1542"></use>
+				</g>
+			</g>
+			<text id="bb-stage-text" x="2%" y="99%" text-anchor="start" font-size="45">Stage 1/1 </text>
+			<text id="bb-percent-text" x="50%" y="99%" text-anchor="middle" font-size="45">0% / 0%</text>
+			<text id="bb-stock-text" x="98%" y="99%" text-anchor="end" font-size="45">Stock 0</text>
+		</svg>
+		<defs>
+			<symbol id="bb-open-config-button-symbol" version="1.1" xmlns="http://www.w3.org/2000/svg"
+					xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 700 700" xml:space="preserve" fill-opacity="0.5"
+					stroke-opacity="0.5">
+			<circle r="325" cx="350" cy="350" fill="white" stroke="black" stroke-width="2%"></circle>
+			<defs>
+					<!-- もともとSVGのファイルだった。SVG要素として配置するとなぜか知らんけどサイズがおかしくなるのでsymbolにした。 -->
+			<symbol id="bb-gear" width="512" height="512" x="94" y="94" viewBox="0 0 512 512">
+			<g>
+			<path class="st0" d="M256,200.472c-30.617,0-55.527,24.914-55.527,55.527c0,30.617,24.91,55.523,55.527,55.523
+						  c30.614,0,55.523-24.906,55.523-55.523C311.523,225.386,286.614,200.472,256,200.472z">
+							</path>
+			<path class="st0" d="M494.23,201.827l-42.718-2.614c-7.45-0.523-13.852-5.226-16.465-12.148
+			c-7.317-18.813-17.375-36.188-29.918-51.606c-4.57-5.75-5.484-13.59-2.218-20.25l19.074-38.281
+			c4.57-9.012,1.305-19.988-7.449-24.953l-61.141-35.274c-8.621-5.094-19.726-2.481-25.344,5.878l-23.648,35.797
+			c-4.051,6.141-11.367,9.406-18.68,8.231c-9.668-1.566-19.598-2.352-29.789-2.352c-10.058,0-19.988,0.786-29.789,2.352
+			c-7.313,1.175-14.629-2.09-18.68-8.231l-23.648-35.797c-5.489-8.359-16.59-10.972-25.215-5.878l-61.27,35.274
+			c-8.625,4.965-11.89,15.941-7.449,24.953l19.074,38.281c3.398,6.661,2.481,14.5-2.222,20.25
+			c-12.41,15.418-22.598,32.793-29.785,51.606c-2.614,6.922-9.145,11.625-16.462,12.148l-42.722,2.614
+			C7.836,202.351,0,210.71,0,220.773v70.546c0,10.058,7.836,18.29,17.766,18.946l42.722,2.613c7.317,0.52,13.848,5.223,16.462,12.016
+			c7.187,18.816,17.374,36.191,29.785,51.606c4.703,5.75,5.621,13.718,2.222,20.382l-19.074,38.278
+			c-4.442,9.016-1.176,19.859,7.449,24.953l61.27,35.278c8.625,4.965,19.726,2.352,25.215-6.012l23.648-35.664
+			c4.051-6.14,11.367-9.41,18.68-8.234c9.801,1.57,19.73,2.352,29.789,2.352c10.191,0,20.121-0.782,29.789-2.352
+			c7.313-1.175,14.629,2.094,18.68,8.234l23.648,35.664c5.618,8.364,16.723,10.977,25.344,6.012l61.141-35.278
+			c8.754-5.094,12.019-15.937,7.449-24.953l-19.074-38.278c-3.266-6.664-2.352-14.633,2.218-20.382
+			c12.543-15.414,22.602-32.79,29.918-51.606c2.613-6.793,9.015-11.496,16.465-12.016l42.718-2.613
+			c9.93-0.656,17.77-8.887,17.77-18.946v-70.546C512,210.71,504.16,202.351,494.23,201.827z M371.554,256.046
+			c0,63.754-51.734,115.489-115.621,115.489c-63.754,0-115.492-51.734-115.492-115.489c0-63.754,51.738-115.492,115.492-115.492
+			C319.82,140.554,371.554,192.292,371.554,256.046z">
+							</path>
+						</g>
+					</symbol>
+				</defs>
+			<use href="#bb-gear"></use>
+			</symbol>
+		</defs>
+		<g id="bb-loading-curtain">
+			<defs>
+				<linearGradient id="curtain-gradient" x1="0" x2="1" y1="0" y2="1">
+					<stop offset="0%" stop-color="rgb(20,20,80)" />
+					<stop offset="50%" stop-color="rgb(30,30,140)" />
+					<stop offset="100%" stop-color="rgb(100,100,210)" />
+				</linearGradient>
+			</defs>
+			<rect width="100%" height="100%" fill="url(#curtain-gradient)"></rect>
+			<text id="bb-loading-text" x="50%" y="50%" text-anchor="middle" font-size="200"
+				  font-family="Arial">Loading...</text>
+		</g>
+		<use id="bb-open-config-button" href="#bb-open-config-button-symbol" width="100" height="100" x="10" y="10">
+		</use>
+		<!-- 上側に配置するものはpointer-events:noneしないと他のボタンなどに影響あるので注意 -->
+		<rect id="bb-flash-overlay" width="100%" height="100%" fill="rgb(10,130,200,0)" style="pointer-events: none;" />
+	</svg>
+	<!-- 命名をbb-config-menu__ball-color-valueにすべきかも -->
+	<div id="bb-config-menu" popover>
+		<div>設定</div>
+		<div id="bb-config-menu__grid">
+			<label>スピード</label>
+			<div id="bb-speed-factor-value">1倍</div>
+			<input id="bb-speed-factor-input" type="range" min="0.25" max="2" value="1" step="0.25"
+				   list="rangeValues" />
+			<datalist id="rangeValues">
+				<option value="0.25"></option>
+				<option value="0.50"></option>
+				<option value="0.75"></option>
+				<option value="1.00"></option>
+				<option value="1.25"></option>
+				<option value="1.50"></option>
+				<option value="1.75"></option>
+				<option value="2.00"></option>
+			</datalist>
+
+			<label>ボールの色</label>
+			<div id="bb-ball-color-value"></div>
+			<input id="bb-ball-color-input" type="color" />
+
+			<label class="bb-fullscreen">全画面表示</label>
+			<div class="bb-fullscreen"></div>
+			<input class="bb-fullscreen" id="bb-fullscreen-checkbox" type="checkbox" />
+
+			<label>ブロック表示</label>
+			<div id="bb-block-visibility-value">ON</div>
+			<input id="bb-block-visibility-input" type="checkbox" checked />
+
+			<label>ビリビリ</label>
+			<div id="bb-bezier-mask-value">ON</div>
+			<input id="bb-bezier-mask-input" type="checkbox" checked />
+
+			<label>アイテム説明</label>
+			<div id="bb-item-explanation-value">ON</div>
+			<input id="bb-item-explanation-input" type="checkbox" checked />
+
+			<label>振動</label>
+			<div id="bb-vibration-enabled-value">ON</div>
+			<input id="bb-vibration-enabled-input" type="checkbox" checked />
+
+			<label>ボリューム</label>
+			<div></div>
+			<div></div>
+
+			<label>BGM</label>
+			<div id="bb-bgm-volume-input-value">1倍</div>
+			<input id="bb-bgm-volume-input" type="range" min="0.00" max="2" value="1" step="0.25"
+				   list="volumeRangeValues" />
+
+			<label>SE</label>
+			<div id="bb-se-volume-input-value">1倍</div>
+			<input id="bb-se-volume-input" type="range" min="0.00" max="2" value="1" step="0.25"
+				   list="volumeRangeValues" />
+			<datalist id="volumeRangeValues">
+				<option value="0.00"></option>
+				<option value="0.25"></option>
+				<option value="0.50"></option>
+				<option value="0.75"></option>
+				<option value="1.00"></option>
+				<option value="1.25"></option>
+				<option value="1.50"></option>
+				<option value="1.75"></option>
+				<option value="2.00"></option>
+			</datalist>
+
+		</div>
+		<button id="bb-config-menu__close-button">閉じる</button>
+	</div>
+
+	<!-- +++++++++++ -->
+	<!-- item dialog -->
+	<!-- +++++++++++ -->
+	<!-- Light dismissのためにDialogではなくpopoverを使用する。 -->
+	<div id="bb-blink-explanation-dialog" class="bb-item-explanation-dialog" popover>
+		<svg class="bb-item-explanation--icon" viewBox="0,0,100,100" version="1.1" xmlns="http://www.w3.org/2000/svg"
+			 xmlns:xlink="http://www.w3.org/1999/xlink">
+			<use href="#bb-blink-icon" width="100" height="100"></use>
+		</svg>
+		<p>定期的にボールが見えなくなります。</p>
+		<button popovertargetaction="hide" popovertarget="bb-blink-explanation-dialog"
+				class="bb-item-explanation--button">
+			確認
+		</button>
+	</div>
+	<div id="bb-ctrl-explanation-dialog" class="bb-item-explanation-dialog" popover>
+		<svg class="bb-item-explanation--icon" viewBox="0,0,100,100" version="1.1" xmlns="http://www.w3.org/2000/svg"
+			 xmlns:xlink="http://www.w3.org/1999/xlink">
+			<use href="#bb-ctrl-icon" width="100" height="100"></use>
+		</svg>
+		<p>カーソルもしくはタッチしている位置をボールが追いかけます。</p>
+		<button popovertargetaction="hide" popovertarget="bb-ctrl-explanation-dialog"
+				class="bb-item-explanation--button">
+			確認
+		</button>
+	</div>
+</body>
+
+</html>
